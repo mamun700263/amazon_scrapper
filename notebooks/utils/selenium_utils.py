@@ -11,6 +11,7 @@ from seleniumwire import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
 from logger import logger
+load_dotenv()
 
 SCRAPEOPS_API_KEY: str =  os.getenv("SCRAPEOPS_API_KEY")
 
@@ -40,7 +41,7 @@ class ScraperConfig:
             The initialized WebDriver instance.
     """
 
-    SCRAPEOPS_API_KEY: str = "576b5061-9bb7-4b03-a00f-4308452d920a"
+    SCRAPEOPS_API_KEY: str =  os.getenv("SCRAPEOPS_API_KEY")
 
     def __init__(
         self,
@@ -188,24 +189,22 @@ class ScraperConfig:
         - Proxy settings (if any)
         - Other browser performance-related settings
         """
+       if self.headless:
+           options.add_argument("--headless=new")
+       if self.incognito:
+           options.add_argument("--incognito")
+       if self.proxy:
+           options.add_argument(f"--proxy-server={self.proxy}")
+       options.add_argument("--no-sandbox")
+       options.add_argument("--disable-dev-shm-usage")
+       options.add_argument("--disable-popup-blocking")
+       options.add_argument("--disable-infobars")
+       options.add_argument("--start-maximized")
+       options.add_argument("--window-size=1920,1080")
+       options.add_argument(f"user-agent={self.random_user_agent}")
 
-        if self.headless:
-            options.add_argument("--headless=new")
-        if self.incognito:
-            options.add_argument("--incognito")
-        if self.proxy:
-            options.add_argument(f"--proxy-server={self.proxy}")
 
-        options.add_argument("--no-sandbox")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--disable-popup-blocking")
-        options.add_argument("--disable-infobars")
-        options.add_argument("--start-maximized")
-        options.add_argument("--window-size=1920,1080")
-        options.add_argument(f"user-agent={self.random_user_agent}")
-
-    @staticmethod
-    def _load_user_agents() -> List[str]:
+    def _load_user_agents(self) -> List[str]:
         """
         Loads a list of User-Agent strings.
 
@@ -213,42 +212,22 @@ class ScraperConfig:
             List[str]: List of user-agent strings.
         """
         return [
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
-            (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) \
-            AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 \
-            (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36",
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) \
-            AppleWebKit/537.36 (KHTML, like Gecko) \
-            Version/17.0 Mobile Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
-            (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) \
-            Gecko/20100101 Firefox/120.0",
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 \
-                (KHTML, like Gecko) Edge/122.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 \
-                (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
-            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 \
-                (KHTML, like Gecko) Firefox/120.0 Safari/537.36",
-            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 \
-                (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/17.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:120.0) Gecko/20100101 Firefox/120.0",
+            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Edge/122.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
+            "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Firefox/120.0 Safari/537.36",
+            "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36",
             "Mozilla/5.0 (X11; Linux x86_64; rv:120.0) Gecko/20100101 Firefox/120.0",
-            "Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 \
-                (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 13; Pixel 7 Pro) AppleWebKit/537.36 \
-                (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36",
-            "Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 \
-                (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
-            "Mozilla/5.0 (Android 13; Mobile; rv:120.0) \
-            Gecko/120.0 Firefox/120.0",
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) \
-             AppleWebKit/537.36 (KHTML, like Gecko)\
-              Version/17.0 Mobile/15E148 Safari/537.36",
-            "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) \
-            AppleWebKit/537.36 (KHTML, like Gecko) \
-            CriOS/120.0.0.0 Mobile/15E148 Safari/537.36",
-            "Mozilla/5.0 (iPad; CPU OS 16_1 like Mac OS X) AppleWebKit/537.36 \
-                (KHTML, like Gecko) Version/16.1 Mobile/15E148 Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 14; SM-S918B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 13; Pixel 7 Pro) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (Linux; Android 12; SM-G991B) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Mobile Safari/537.36",
+            "Mozilla/5.0 (Android 13; Mobile; rv:120.0) Gecko/120.0 Firefox/120.0",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/537.36",
+            "Mozilla/5.0 (iPhone; CPU iPhone OS 16_5 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) CriOS/120.0.0.0 Mobile/15E148 Safari/537.36",
+            "Mozilla/5.0 (iPad; CPU OS 16_1 like Mac OS X) AppleWebKit/537.36 (KHTML, like Gecko) Version/16.1 Mobile/15E148 Safari/537.36"
         ]
