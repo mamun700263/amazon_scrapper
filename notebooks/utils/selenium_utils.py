@@ -10,7 +10,8 @@ from dotenv import load_dotenv
 from seleniumwire import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
-from logger import logger
+from logger import get_logger
+logger = get_logger('utils.selenium')
 load_dotenv()
 
 SCRAPEOPS_API_KEY: str =  os.getenv("SCRAPEOPS_API_KEY")

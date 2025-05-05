@@ -1,5 +1,6 @@
 import time, random
-from logger import logger
+from logger import get_logger
+logger = get_logger('utils.amazon')
 from utils.selenium_utils import ScraperConfig
 from utils.common import load_and_scroll, soup_maker, pagination
 

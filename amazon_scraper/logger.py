@@ -2,10 +2,6 @@ import logging
 import os
 from logging.handlers import RotatingFileHandler
 
-# ========== 🔧 Logger Setup ==========
-logger = logging.getLogger("username")
-logger.setLevel(logging.DEBUG)
-
 # ========== 🎨 Formatter ==========
 formatter = logging.Formatter(
     "[%(asctime)s] [%(levelname)s] [%(name)s] %(message)s", datefmt="%Y-%m-%d %H:%M:%S"
@@ -16,18 +12,25 @@ log_dir = "logs"
 os.makedirs(log_dir, exist_ok=True)  # Create log directory if it doesn't exist
 log_file = os.path.join(log_dir, "user_manager.log")
 
-# ========== 🗃️ Log Rotation Setup ==========
-log_size = 5 * 1024 * 1024  # 5 MB
-fh = RotatingFileHandler(log_file, maxBytes=log_size, backupCount=3)
-fh.setFormatter(formatter)
+# ========== 🔧 Logger Factory Function ==========
+def get_logger(name: str) -> logging.Logger:
+    logger = logging.getLogger(name)
+    logger.setLevel(logging.DEBUG)
 
-# Add FileHandler to the logger
-logger.addHandler(fh)
+    # Prevent duplicate handlers (very important!)
+    if not logger.handlers:
+        # ========== 🗃️ Rotating File Handler ==========
+        log_size = 5 * 1024 * 1024  # 5 MB
+        fh = RotatingFileHandler(log_file, maxBytes=log_size, backupCount=3)
+        fh.setFormatter(formatter)
+        logger.addHandler(fh)
 
-# ========== 🖥️ Optional Stream Handler (Uncomment to enable terminal logs) ==========
-# ch = logging.StreamHandler()
-# ch.setFormatter(formatter)
-# logger.addHandler(ch)
+        # ========== 🖥️ Optional: Terminal Output ==========
+        # ch = logging.StreamHandler()
+        # ch.setFormatter(formatter)
+        # logger.addHandler(ch)
+
+    return logger
 
 """
 📚 === EMOJI LOGGER CHEAT SHEET ===
