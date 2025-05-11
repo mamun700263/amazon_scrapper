@@ -2,7 +2,7 @@ from utils.common import *
 from utils.amazon import *
 from utils.selenium_utils import *
 
-from log_config import get_logger
+from logger import get_logger
 logger = get_logger('Searcing')
 
 
@@ -14,5 +14,5 @@ def main():
     save_as(items=results, file_name="keyboard.json")
     amazon.quit()
 
-if __name__==__main__:
+if __name__==main:
     main()
