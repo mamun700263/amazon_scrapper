@@ -1,3 +1,49 @@
+"""
+📦 logger.py — Reusable Logger for Any Python Project
+
+This file gives you:
+- ✅ Rotating file-based logging (5MB chunks, 3 backups)
+- ✅ Pretty terminal + file formatting
+- ✅ Drop-in logger per module: get_logger(__name__)
+- ✅ Emoji-level cheat sheet for expressive logs
+
+🔧 How to Use:
+
+    from logger import get_logger
+    logger = get_logger(__name__)
+
+    logger.info("ℹ️ App initialized")
+    logger.warning("⚠️ Disk space low")
+    logger.error("❌ Couldn't connect to DB")
+
+📚 === EMOJI LOGGER CHEAT SHEET ===
+
+🔥 Basic Logging Levels with Emojis
+
+| Level         | Emoji(s)                              | Vibe / Usage                                      |
+|---------------|----------------------------------------|---------------------------------------------------|
+| DEBUG         | 🐛 🔍 🧠 🛠️                          | Dev insights, bug hunting, internal values        |
+| INFO          | ℹ️ ✅ 📘 🧾 🪄                         | Normal ops, tracking flow                         |
+| SUCCESS       | ✅ 🎉 🟢 🚀 💯                         | Task done, ops success                            |
+| WARNING       | ⚠️ 🟡 👀 🚧 🫣                         | Something fishy, not broken yet                   |
+| ERROR         | ❌ 🔴 🛑 💥 🤬                         | Something failed, needs fix                       |
+| CRITICAL      | 💣 🚨 🔥 😱 💀                        | System down, emergency!                         
+
+🔮 Context-Specific Emojis
+
+| Context             | Emoji(s)                        |
+|---------------------|---------------------------------|
+| API Call            | 🌐 📡 📲                        |
+| Database            | 🗄️ 💾 📦                        |
+| Authentication      | 🔐 🧑‍💻 🪪                      |
+| File System         | 📁 📝 📂                        |
+| Time/Delay          | ⏳ ⏰ 🕒                        |
+| Start/Init          | 🟢 🚀 🛫                        |
+| Shutdown/Exit       | 🔚 🛑 👋                        |
+| Network/Proxy       | 🌍 🕸️ 🧱                       |
+| Retry/Loop          | 🔁 ♻️ 🔄                       |
+"""
+
 import logging
 import os
 from logging.handlers import RotatingFileHandler
@@ -31,44 +77,3 @@ def get_logger(name: str) -> logging.Logger:
         # logger.addHandler(ch)
 
     return logger
-
-"""
-📚 === EMOJI LOGGER CHEAT SHEET ===
-
-🔥 Basic Logging Levels with Emojis
-
-| Level         | Emoji(s)                              | Vibe / Usage                                      |
-|---------------|----------------------------------------|---------------------------------------------------|
-| DEBUG         | 🐛 🔍 🧠 🛠️                          | Dev insights, bug hunting, internal values        |
-| INFO          | ℹ️ ✅ 📘 🧾 🪄                         | Normal ops, tracking flow                         |
-| SUCCESS       | ✅ 🎉 🟢 🚀 💯                         | Task done, ops success                            |
-| WARNING       | ⚠️ 🟡 👀 🚧 🫣                         | Something fishy, not broken yet                   |
-| ERROR         | ❌ 🔴 🛑 💥 🤬                         | Something failed, needs fix                       |
-| CRITICAL      | 💣 🚨 🔥 😱 💀                        | System down, emergency!                         
-
-🔮 Context-Specific Emojis
-
-| Context             | Emoji(s)                        |
-|---------------------|---------------------------------|
-| API Call            | 🌐 📡 📲                        |
-| Database            | 🗄️ 💾 📦                        |
-| Authentication      | 🔐 🧑‍💻 🪪                      |
-| File System         | 📁 📝 📂                        |
-| Time/Delay          | ⏳ ⏰ 🕒                        |
-| Start/Init          | 🟢 🚀 🛫                        |
-| Shutdown/Exit       | 🔚 🛑 👋                        |
-| Network/Proxy       | 🌍 🕸️ 🧱                       |
-| Retry/Loop          | 🔁 ♻️ 🔄                       |
-
-🧪 Example Usage
-
-    logger.debug("🐛 Debugging the user flow")
-    logger.info("ℹ️ App initialized")
-    logger.warning("⚠️ Disk space low")
-    logger.error("❌ Couldn't connect to DB")
-    logger.critical("💀 Kernel panic. Goodbye.")
-"""
-
-
-
-

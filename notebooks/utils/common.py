@@ -17,9 +17,8 @@ from selenium.common.exceptions import WebDriverException, TimeoutException
 
 from requests.exceptions import RequestException, Timeout, ConnectionError
 
-from logger import get_logger
+from notebooks.logger import get_logger
 logger = get_logger('utils.common')
-
 
 
 def soup_maker(response: str) -> Optional[BeautifulSoup]:

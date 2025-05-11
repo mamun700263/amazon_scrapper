@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 from seleniumwire import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.chrome.service import Service as ChromeService
-from logger import get_logger
+from notebooks.logger import get_logger
 logger = get_logger('utils.selenium')
 load_dotenv()
 
